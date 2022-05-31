@@ -1,18 +1,36 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
-import { fetchImages } from '../api/api-handler';
+import { FetchImageApiModel } from '../models/store/fetch-image-model';
+import { UserSearchModel } from '../models/store/search-model';
 import STYLES from '../screens/Home/home-screen.style';
 
-const SearchBar = () => {
+interface SearchBarProps {
+  PlaceHolder: string;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ PlaceHolder }) => {
   const [localSearchValue, onChangeLocalSearchValue] = useState<string>('');
 
   return (
     <TextInput
       style={STYLES.input}
-      placeholder="Search image"
-      onSubmitEditing={() => fetchImages(localSearchValue, '1')}
+      placeholder={PlaceHolder}
       placeholderTextColor={'black'}
-      onChangeText={onChangeLocalSearchValue}
+      onChangeText={text => {
+        UserSearchModel.setSearchResult([]);
+        UserSearchModel.setPageNumber(1);
+        onChangeLocalSearchValue(text);
+
+        if (text) {
+          FetchImageApiModel.fetchImageAction({
+            searchValue: text,
+            page: '1',
+          });
+        } else {
+          console.log('hello');
+          UserSearchModel.setSearchResult([]);
+        }
+      }}
       value={localSearchValue}
     />
   );
