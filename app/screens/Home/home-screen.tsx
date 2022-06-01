@@ -6,6 +6,7 @@ import {
   StatusBar,
   View,
 } from 'react-native';
+import { debounce } from 'lodash';
 import ImageCell from '../../components/image-cell';
 import SearchBar from '../../components/search-bar';
 import { FetchImageApiModel } from '../../models/store/fetch-image-model';
@@ -22,13 +23,13 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     };
   }, []);
 
-  const onPageFinish = () => {
+  const onPageFinish = debounce(() => {
     UserSearchModel.setPageNumber(UserSearchModel.getPageNumber() + 1);
     FetchImageApiModel.fetchImageAction({
       searchValue: UserSearchModel.getSearchValue(),
       page: UserSearchModel.getPageNumber().toString(),
     });
-  };
+  }, 1000);
 
   return (
     <SafeAreaView>
@@ -39,11 +40,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           contentContainerStyle={Styles.list}
           data={UserSearchModel.getSearchResult()}
           renderItem={ImageCell}
-          keyExtractor={item => item.id}
           onEndReached={() => {
             onPageFinish();
           }}
-          onEndReachedThreshold={0.4}
+          onEndReachedThreshold={0.2}
           ListFooterComponent={
             <ActivityIndicator
               animating={UserSearchModel.getIsSearching()}
