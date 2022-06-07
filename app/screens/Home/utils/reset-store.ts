@@ -1,9 +1,9 @@
-import { UserSearchModel } from '../../../models/store/user-search-model';
+import { rootStore } from '../../../models/stores/root-store';
 
 const ResetStore = () => {
-  UserSearchModel.setSearchResult([]);
-  UserSearchModel.setSearchValue('');
-  UserSearchModel.setPageNumber(1);
+  rootStore.userStore.setSearchResult([]);
+  rootStore.userStore.setSearchValue('');
+  rootStore.userStore.setPageNumber(1);
 };
 
 export default ResetStore;

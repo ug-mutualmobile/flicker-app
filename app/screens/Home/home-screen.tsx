@@ -7,15 +7,17 @@ import {
   View,
 } from 'react-native';
 import { debounce } from 'lodash';
+import { useStore } from '../../models/stores/root-store';
 import ImageCell from '../../components/image-cell';
 import SearchBar from '../../components/search-bar';
-import { UserSearchModel } from '../../models/store/user-search-model';
 import ResetStore from './utils/reset-store';
 import Styles from './home-screen.style';
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
+  const { userStore } = useStore();
+
   useEffect(() => {
     return () => {
       ResetStore();
@@ -23,15 +25,15 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   }, []);
 
   const onPageFinish = debounce(() => {
-    UserSearchModel.setPageNumber(UserSearchModel.getPageNumber() + 1);
-    UserSearchModel.fetchImageAction({
-      searchValue: UserSearchModel.getSearchValue(),
-      page: UserSearchModel.getPageNumber().toString(),
+    userStore.setPageNumber(userStore.getPageNumber() + 1);
+    userStore.fetchImageAction({
+      searchValue: userStore.getSearchValue(),
+      page: userStore.getPageNumber().toString(),
     });
   }, 1000);
 
   const onSearch = debounce((text: string) => {
-    UserSearchModel.fetchImageAction({
+    userStore.fetchImageAction({
       searchValue: text,
       page: '1',
     });
@@ -41,8 +43,8 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     text: string,
     onChangeLocalSearchValue: (text: string) => void,
   ) => {
-    UserSearchModel.setSearchResult([]);
-    UserSearchModel.setPageNumber(1);
+    userStore.setSearchResult([]);
+    userStore.setPageNumber(1);
     onChangeLocalSearchValue(text);
 
     if (text) {
@@ -57,7 +59,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         <SearchBar PlaceHolder="Search image" OnChangeText={onChangeText} />
         <FlatList
           contentContainerStyle={Styles.list}
-          data={UserSearchModel.getSearchResult()}
+          data={userStore.getSearchResult()}
           renderItem={ImageCell}
           onEndReached={() => {
             onPageFinish();
@@ -65,7 +67,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           onEndReachedThreshold={0.2}
           ListFooterComponent={
             <ActivityIndicator
-              animating={UserSearchModel.getIsSearching()}
+              animating={userStore.getIsSearching()}
               size="large"
             />
           }
