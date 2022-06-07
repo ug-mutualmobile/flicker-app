@@ -1,12 +1,12 @@
 import React from 'react';
 import { Image, Pressable, Text } from 'react-native';
-import { SearchResultInterface } from '../models/interfaces/search-result-interface';
+import { ImageDetailInterface } from '../models/interfaces/image-detail-interface';
 import { UserImageDetailModel } from '../models/store/image-detail-model';
 import { navigate } from '../navigators/root-navigation';
 import STYLES from '../screens/Home/home-screen.style';
 
 interface ImageCellProps {
-  item: SearchResultInterface;
+  item: ImageDetailInterface;
 }
 
 const ImageCell: React.FC<ImageCellProps> = ({ item }) => {
@@ -15,7 +15,7 @@ const ImageCell: React.FC<ImageCellProps> = ({ item }) => {
       style={STYLES.imageCellContainer}
       onPress={() => {
         navigate('ImageDetail');
-        UserImageDetailModel.setImageDetails(item);
+        UserImageDetailModel.setImageId(item.id);
       }}>
       <Image
         source={{

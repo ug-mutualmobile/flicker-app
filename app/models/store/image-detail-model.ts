@@ -1,39 +1,43 @@
 import { types } from 'mobx-state-tree';
-import { ImageDetailsInterface } from '../interfaces/image-detail.interface';
+import { UserSearchModel } from './user-search-model';
 
 const ImageDetailModel = types
   .model({
     id: types.string,
-    title: types.string,
-    server: types.string,
-    secret: types.string,
   })
   .views(self => {
     return {
       getImageDetails() {
-        return {
+        let imageDetails = {
           id: self.id,
-          title: self.title,
-          server: self.server,
-          secret: self.secret,
+          title: '',
+          server: '',
+          secret: '',
         };
+
+        UserSearchModel.getSearchResult().forEach(item => {
+          if (self.id && item.id === self.id) {
+            imageDetails = {
+              id: self.id,
+              title: item.title,
+              server: item.server,
+              secret: item.secret,
+            };
+          }
+        });
+
+        return imageDetails;
       },
     };
   })
   .actions(self => {
     return {
-      setImageDetails(data: ImageDetailsInterface) {
-        self.id = data.id;
-        self.title = data.title;
-        self.server = data.server;
-        self.secret = data.secret;
+      setImageId(id: string) {
+        self.id = id;
       },
     };
   });
 
 export const UserImageDetailModel = ImageDetailModel.create({
   id: '',
-  title: '',
-  server: '',
-  secret: '',
 });

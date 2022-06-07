@@ -1,17 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Image, SafeAreaView, Text, View } from 'react-native';
 import { UserImageDetailModel } from '../../models/store/image-detail-model';
-import ResetStore from './components/reset-store';
 import Styles from './image-detail.style';
 
 const ImageDetail: React.FC = () => {
   const data = UserImageDetailModel.getImageDetails();
-
-  useEffect(() => {
-    return () => {
-      ResetStore();
-    };
-  }, []);
 
   return (
     <SafeAreaView>

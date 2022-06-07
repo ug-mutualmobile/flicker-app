@@ -1,5 +1,8 @@
 import { types, cast } from 'mobx-state-tree';
-import { SearchResultInterface } from '../interfaces/search-result-interface';
+import * as ImageApi from '../../services/user';
+import SnackbarCell from '../../components/snackbar';
+import { ImageDetailInterface } from '../interfaces/image-detail-interface';
+import { FetchImageInterface } from '../interfaces/fetch-image-interface';
 
 const SearchResultArray = types.model({
   farm: types.number,
@@ -44,11 +47,40 @@ const SearchModel = types
       setSearchValue(searchValue: string) {
         self.searchValue = searchValue;
       },
-      setSearchResult(result: SearchResultInterface[]) {
+      setSearchResult(result: ImageDetailInterface[]) {
         self.searchResult = cast(result);
       },
       setPageNumber(number: number) {
         self.page = number;
+      },
+      async fetchImageAction(data: FetchImageInterface) {
+        UserSearchModel.setSearchValue(data.searchValue);
+        UserSearchModel.setIsSearching(true);
+
+        try {
+          const response = await ImageApi.fetchImagesApi(
+            data.searchValue,
+            data.page.toString(),
+          );
+          const result = response.data;
+
+          if (result.stat === 'ok') {
+            if (response.data) {
+              UserSearchModel.setSearchResult([
+                ...UserSearchModel.getSearchResult(),
+                ...result?.photos?.photo,
+              ]);
+            }
+          } else {
+            SnackbarCell('Bad response!');
+          }
+
+          UserSearchModel.setIsSearching(false);
+        } catch (error) {
+          console.error(error);
+          UserSearchModel.setIsSearching(false);
+          SnackbarCell('Error while calling fetching data');
+        }
       },
     };
   });

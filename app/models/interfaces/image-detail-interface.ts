@@ -1,4 +1,4 @@
-export interface SearchResultInterface {
+export interface ImageDetailInterface {
   farm: number;
   id: string;
   isfamily: number;
