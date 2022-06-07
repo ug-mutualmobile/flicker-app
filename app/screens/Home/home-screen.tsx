@@ -31,11 +31,31 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     });
   }, 1000);
 
+  const onSearch = debounce((text: string) => {
+    FetchImageApiModel.fetchImageAction({
+      searchValue: text,
+      page: '1',
+    });
+  }, 1000);
+
+  const onChangeText = (
+    text: string,
+    onChangeLocalSearchValue: (text: string) => void,
+  ) => {
+    UserSearchModel.setSearchResult([]);
+    UserSearchModel.setPageNumber(1);
+    onChangeLocalSearchValue(text);
+
+    if (text) {
+      onSearch(text);
+    }
+  };
+
   return (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
       <View>
-        <SearchBar PlaceHolder="Search image" />
+        <SearchBar PlaceHolder="Search image" OnChangeText={onChangeText} />
         <FlatList
           contentContainerStyle={Styles.list}
           data={UserSearchModel.getSearchResult()}
