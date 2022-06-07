@@ -19,7 +19,7 @@ const ImageCell: React.FC<ImageCellProps> = ({ item }) => {
       }}>
       <Image
         source={{
-          uri: `https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_z.jpg`,
+          uri: `https://live.staticflickr.com/${item?.server}/${item.id}_${item.secret}_z.jpg`,
         }}
         style={STYLES.image}
       />
