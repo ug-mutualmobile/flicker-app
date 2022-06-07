@@ -9,9 +9,8 @@ import {
 import { debounce } from 'lodash';
 import ImageCell from '../../components/image-cell';
 import SearchBar from '../../components/search-bar';
-import { FetchImageApiModel } from '../../models/store/fetch-image-model';
-import { UserSearchModel } from '../../models/store/search-model';
-import ResetStore from './components/reset-store';
+import { UserSearchModel } from '../../models/store/user-search-model';
+import ResetStore from './utils/reset-store';
 import Styles from './home-screen.style';
 
 interface HomeScreenProps {}
@@ -25,14 +24,14 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   const onPageFinish = debounce(() => {
     UserSearchModel.setPageNumber(UserSearchModel.getPageNumber() + 1);
-    FetchImageApiModel.fetchImageAction({
+    UserSearchModel.fetchImageAction({
       searchValue: UserSearchModel.getSearchValue(),
       page: UserSearchModel.getPageNumber().toString(),
     });
   }, 1000);
 
   const onSearch = debounce((text: string) => {
-    FetchImageApiModel.fetchImageAction({
+    UserSearchModel.fetchImageAction({
       searchValue: text,
       page: '1',
     });

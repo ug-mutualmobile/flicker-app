@@ -1,4 +1,4 @@
-import { UserSearchModel } from '../../../models/store/search-model';
+import { UserSearchModel } from '../../../models/store/user-search-model';
 
 const ResetStore = () => {
   UserSearchModel.setSearchResult([]);
