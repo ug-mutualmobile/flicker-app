@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { debounce } from 'lodash';
 import { useStore } from '../../models/stores/root-store';
-import ImageCell from '../../components/image-cell';
+import ImageCell from '../../components/ImageCell';
 import SearchBar from '../../components/search-bar';
 import ResetStore from './utils/reset-store';
 import Styles from './home-screen.style';
@@ -60,7 +60,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         <FlatList
           contentContainerStyle={Styles.list}
           data={userStore.getSearchResult()}
-          renderItem={ImageCell}
+          renderItem={props => <ImageCell item={props.item} />}
           onEndReached={() => {
             onPageFinish();
           }}
