@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/Home/home-screen';
-import ImageDetail from '../screens/Image/image-detail';
+import HomeScreen from '../screens/home-screen/home-screen';
+import ImageDetail from '../screens/image-screen/image-detail';
 import { observer } from 'mobx-react-lite';
 
 export type NavigatorParamList = {

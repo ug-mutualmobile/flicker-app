@@ -1,22 +1,19 @@
 import React from 'react';
 import { Image, Pressable, Text } from 'react-native';
-import { useStore } from '../models/stores/root-store';
+import { ImageDetailInterface } from '../models/interfaces/image-detail-interface';
 import { navigate } from '../navigators/root-navigation';
-import STYLES from '../screens/Home/home-screen.style';
+import STYLES from '../screens/home-screen/home-screen.style';
 
 interface ImageCellProps {
-  item: any;
+  item: ImageDetailInterface;
 }
 
 const ImageCell: React.FC<ImageCellProps> = ({ item }) => {
-  const { imageDetailStore } = useStore();
-
   return (
     <Pressable
       style={STYLES.imageCellContainer}
       onPress={() => {
-        navigate('ImageDetail');
-        imageDetailStore.setImageId(item.id);
+        navigate('ImageDetail', { id: item.id });
       }}>
       <Image
         source={{

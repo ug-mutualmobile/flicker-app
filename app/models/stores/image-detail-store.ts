@@ -3,23 +3,21 @@ import { rootStore } from './root-store';
 
 export const ImageDetailStore = types
   .model('ImageDetailStore')
-  .props({
-    id: types.string,
-  })
-  .views(self => {
+  .props({})
+  .views(() => {
     return {
-      getImageDetails() {
+      getImageDetails(id: string) {
         let imageDetails = {
-          id: self.id,
+          id: id,
           title: '',
           server: '',
           secret: '',
         };
 
         rootStore.userStore.getSearchResult().forEach(item => {
-          if (self.id && item.id === self.id) {
+          if (id && item.id === id) {
             imageDetails = {
-              id: self.id,
+              id: id,
               title: item.title,
               server: item.server,
               secret: item.secret,
@@ -30,15 +28,6 @@ export const ImageDetailStore = types
         return imageDetails;
       },
     };
-  })
-  .actions(self => {
-    return {
-      setImageId(id: string) {
-        self.id = id;
-      },
-    };
   });
 
-export const ImageDetailStoreInitialState = {
-  id: '',
-};
+export const ImageDetailStoreInitialState = {};

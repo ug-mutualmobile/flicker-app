@@ -59,9 +59,13 @@ export const UserStore = types
         self.searchValue = data.searchValue;
         self.isSearching = true;
         try {
-          const response: any = yield ImageApi.fetchImagesApi(
+          const response = yield ImageApi.fetchImagesApi(
             data.searchValue,
             data.page.toString(),
+          );
+          console.log(
+            '🚀 ~ file: user-store.ts ~ line 66 ~ fetchImageAction:flow ~ response',
+            response,
           );
           const result = response.data;
           if (result.stat === 'ok') {
