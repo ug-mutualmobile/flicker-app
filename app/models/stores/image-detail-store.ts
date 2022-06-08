@@ -1,8 +1,9 @@
 import { types } from 'mobx-state-tree';
-import { UserSearchModel } from './user-search-model';
+import { rootStore } from './root-store';
 
-const ImageDetailModel = types
-  .model({
+export const ImageDetailStore = types
+  .model('ImageDetailStore')
+  .props({
     id: types.string,
   })
   .views(self => {
@@ -15,7 +16,7 @@ const ImageDetailModel = types
           secret: '',
         };
 
-        UserSearchModel.getSearchResult().forEach(item => {
+        rootStore.userStore.getSearchResult().forEach(item => {
           if (self.id && item.id === self.id) {
             imageDetails = {
               id: self.id,
@@ -38,6 +39,6 @@ const ImageDetailModel = types
     };
   });
 
-export const UserImageDetailModel = ImageDetailModel.create({
+export const ImageDetailStoreInitialState = {
   id: '',
-});
+};

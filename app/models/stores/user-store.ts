@@ -1,10 +1,11 @@
-import { types, cast } from 'mobx-state-tree';
-import * as ImageApi from '../../services/user';
+import { cast, flow, types } from 'mobx-state-tree';
 import SnackbarCell from '../../components/snackbar';
-import { ImageDetailInterface } from '../interfaces/image-detail-interface';
+import * as ImageApi from '../../services/user';
 import { FetchImageInterface } from '../interfaces/fetch-image-interface';
+import { ImageDetailInterface } from '../interfaces/image-detail-interface';
+import { rootStore } from './root-store';
 
-const SearchResultArray = types.model({
+const SearchResultModel = types.model({
   farm: types.number,
   id: types.string,
   isfamily: types.number,
@@ -16,12 +17,13 @@ const SearchResultArray = types.model({
   title: types.string,
 });
 
-const SearchModel = types
-  .model({
+export const UserStore = types
+  .model('UserStore')
+  .props({
     searchValue: types.string,
     isSearching: types.boolean,
     page: types.number,
-    searchResult: types.array(SearchResultArray),
+    searchResult: types.array(SearchResultModel),
   })
   .views(self => {
     return {
@@ -53,41 +55,38 @@ const SearchModel = types
       setPageNumber(number: number) {
         self.page = number;
       },
-      async fetchImageAction(data: FetchImageInterface) {
-        UserSearchModel.setSearchValue(data.searchValue);
-        UserSearchModel.setIsSearching(true);
-
+      fetchImageAction: flow(function* (data: FetchImageInterface) {
+        self.searchValue = data.searchValue;
+        self.isSearching = true;
         try {
-          const response = await ImageApi.fetchImagesApi(
+          const response: any = yield ImageApi.fetchImagesApi(
             data.searchValue,
             data.page.toString(),
           );
           const result = response.data;
-
           if (result.stat === 'ok') {
             if (response.data) {
-              UserSearchModel.setSearchResult([
-                ...UserSearchModel.getSearchResult(),
+              rootStore.userStore.setSearchResult([
+                ...rootStore.userStore.getSearchResult(),
                 ...result?.photos?.photo,
               ]);
             }
           } else {
             SnackbarCell('Bad response!');
           }
-
-          UserSearchModel.setIsSearching(false);
+          self.isSearching = false;
         } catch (error) {
           console.error(error);
-          UserSearchModel.setIsSearching(false);
+          self.isSearching = false;
           SnackbarCell('Error while calling fetching data');
         }
-      },
+      }),
     };
   });
 
-export const UserSearchModel = SearchModel.create({
+export const UserStoreInitialState = {
   searchValue: '',
   isSearching: false,
   searchResult: [],
   page: 1,
-});
+};
