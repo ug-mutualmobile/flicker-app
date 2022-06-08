@@ -3,9 +3,14 @@ import { Image, SafeAreaView, Text, View } from 'react-native';
 import { useStore } from '../../models/stores/root-store';
 import Styles from './image-detail.style';
 
-const ImageDetail: React.FC = () => {
+interface ImageDetailProps {
+  route: { params: { id: string } };
+}
+
+const ImageDetail: React.FC<ImageDetailProps> = ({ route }) => {
+  const { id } = route.params;
   const { imageDetailStore } = useStore();
-  const data = imageDetailStore.getImageDetails();
+  const data = imageDetailStore.getImageDetails(id);
 
   return (
     <SafeAreaView>

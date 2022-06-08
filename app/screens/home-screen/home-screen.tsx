@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { debounce } from 'lodash';
 import { useStore } from '../../models/stores/root-store';
-import ImageCell from '../../components/ImageCell';
+import ImageCell from '../../components/image-cell';
 import SearchBar from '../../components/search-bar';
 import ResetStore from './utils/reset-store';
 import Styles from './home-screen.style';
@@ -56,11 +56,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
       <View>
-        <SearchBar PlaceHolder="Search image" OnChangeText={onChangeText} />
+        <SearchBar placeHolder="Search image" onChangeText={onChangeText} />
         <FlatList
           contentContainerStyle={Styles.list}
           data={userStore.getSearchResult()}
-          renderItem={props => <ImageCell item={props.item} />}
+          renderItem={ImageCell}
+          keyExtractor={item => item.id}
           onEndReached={() => {
             onPageFinish();
           }}

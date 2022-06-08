@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
-import STYLES from '../screens/Home/home-screen.style';
+import STYLES from '../screens/home-screen/home-screen.style';
+import { COLORS } from '../theme/colors';
 
 interface SearchBarProps {
-  PlaceHolder: string;
-  OnChangeText: (
+  placeHolder: string;
+  onChangeText: (
     text: string,
     onChangeLocalSearchValue: (text: string) => void,
   ) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ PlaceHolder, OnChangeText }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ placeHolder, onChangeText }) => {
   const [localSearchValue, onChangeLocalSearchValue] = useState<string>('');
 
   return (
     <TextInput
       style={STYLES.input}
-      placeholder={PlaceHolder}
-      placeholderTextColor={'black'}
-      onChangeText={text => OnChangeText(text, onChangeLocalSearchValue)}
+      placeholder={placeHolder}
+      placeholderTextColor={COLORS.black}
+      onChangeText={text => onChangeText(text, onChangeLocalSearchValue)}
       value={localSearchValue}
     />
   );
