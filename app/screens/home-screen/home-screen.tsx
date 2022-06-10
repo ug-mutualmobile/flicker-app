@@ -12,6 +12,8 @@ import ImageCell from '../../components/image-cell';
 import SearchBar from '../../components/search-bar';
 import ResetStore from './utils/reset-store';
 import Styles from './home-screen.style';
+import SnackbarCell from '../../components/snack-bar';
+import checkNetwork from '../../services/utils/check-network';
 
 interface HomeScreenProps {}
 
@@ -39,16 +41,20 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     });
   }, 1000);
 
-  const onChangeText = (
+  const onChangeText = async (
     text: string,
     onChangeLocalSearchValue: (text: string) => void,
   ) => {
-    userStore.setSearchResult([]);
-    userStore.setPageNumber(1);
-    onChangeLocalSearchValue(text);
+    if (await checkNetwork()) {
+      userStore.setSearchResult([]);
+      userStore.setPageNumber(1);
+      onChangeLocalSearchValue(text);
 
-    if (text) {
-      onSearch(text);
+      if (text) {
+        onSearch(text);
+      }
+    } else {
+      SnackbarCell('Check your network');
     }
   };
 
