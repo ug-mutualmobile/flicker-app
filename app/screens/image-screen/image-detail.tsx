@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+import Screen from '../../components/screen';
 import { useStore } from '../../models/stores/root-store';
 import styles from './image-detail.style';
 
@@ -13,7 +14,7 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ route }) => {
   const data = imageDetailStore.getImageDetails(id);
 
   return (
-    <SafeAreaView>
+    <Screen>
       <View style={styles.container}>
         <Image
           source={{
@@ -23,7 +24,7 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ route }) => {
         />
         <Text style={styles.text}>{data?.title || '-'}</Text>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 };
 

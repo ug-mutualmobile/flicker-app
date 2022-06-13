@@ -24,6 +24,7 @@ export const UserStore = types
     isSearching: types.boolean,
     page: types.number,
     searchResult: types.array(SearchResultModel),
+    isAppLoading: types.boolean,
   })
   .views(self => {
     return {
@@ -38,6 +39,9 @@ export const UserStore = types
       },
       getPageNumber() {
         return self.page;
+      },
+      getIsAppLoading() {
+        return self.isAppLoading;
       },
     };
   })
@@ -54,6 +58,9 @@ export const UserStore = types
       },
       setPageNumber(number: number) {
         self.page = number;
+      },
+      setIsAppLoading(isLoading: boolean) {
+        self.isAppLoading = isLoading;
       },
       fetchImageAction: flow(function* (data: FetchImageInterface) {
         self.searchValue = data.searchValue;
@@ -88,4 +95,5 @@ export const UserStoreInitialState = {
   isSearching: false,
   searchResult: [],
   page: 1,
+  isAppLoading: true,
 };

@@ -2,7 +2,10 @@ import NetInfo from '@react-native-community/netinfo';
 
 const checkNetwork = async () => {
   return await NetInfo.fetch().then(state => {
-    return state.isConnected;
+    return {
+      isConnected: state.isConnected,
+      isInternetReachable: state.isInternetReachable,
+    };
   });
 };
 
