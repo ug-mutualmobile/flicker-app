@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 
 export type NavigatorParamList = {
   HomeScreen: undefined;
-  ImageDetail: undefined;
+  ImageDetail: { id: string };
 };
 
 const Stack = createStackNavigator<NavigatorParamList>();

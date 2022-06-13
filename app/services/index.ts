@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../assets/contants';
+import handleError from './utils/handle-error';
 
 let cancelToken: any;
 
@@ -17,5 +18,12 @@ const instance = axios.create({
   cancelToken: cancelToken.token,
   timeout: 4000,
 });
+
+instance.interceptors.response.use(
+  response => response,
+  ({ message, response }) => {
+    return handleError({ response, message });
+  },
+);
 
 export default instance;

@@ -1,5 +1,5 @@
 import { cast, flow, types } from 'mobx-state-tree';
-import SnackbarCell from '../../components/snackbar';
+import SnackbarCell from '../../components/snack-bar';
 import * as ImageApi from '../../services/user';
 import { FetchImageInterface } from '../interfaces/fetch-image-interface';
 import { ImageDetailInterface } from '../interfaces/image-detail-interface';
@@ -24,6 +24,7 @@ export const UserStore = types
     isSearching: types.boolean,
     page: types.number,
     searchResult: types.array(SearchResultModel),
+    isAppLoading: types.boolean,
   })
   .views(self => {
     return {
@@ -38,6 +39,9 @@ export const UserStore = types
       },
       getPageNumber() {
         return self.page;
+      },
+      getIsAppLoading() {
+        return self.isAppLoading;
       },
     };
   })
@@ -55,6 +59,9 @@ export const UserStore = types
       setPageNumber(number: number) {
         self.page = number;
       },
+      setIsAppLoading(isLoading: boolean) {
+        self.isAppLoading = isLoading;
+      },
       fetchImageAction: flow(function* (data: FetchImageInterface) {
         self.searchValue = data.searchValue;
         self.isSearching = true;
@@ -63,10 +70,7 @@ export const UserStore = types
             data.searchValue,
             data.page.toString(),
           );
-          console.log(
-            '🚀 ~ file: user-store.ts ~ line 66 ~ fetchImageAction:flow ~ response',
-            response,
-          );
+
           const result = response.data;
           if (result.stat === 'ok') {
             if (response.data) {
@@ -80,9 +84,7 @@ export const UserStore = types
           }
           self.isSearching = false;
         } catch (error) {
-          console.error(error);
           self.isSearching = false;
-          SnackbarCell('Error while calling fetching data');
         }
       }),
     };
@@ -93,4 +95,5 @@ export const UserStoreInitialState = {
   isSearching: false,
   searchResult: [],
   page: 1,
+  isAppLoading: true,
 };

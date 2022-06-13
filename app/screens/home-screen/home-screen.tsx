@@ -1,17 +1,12 @@
 import React, { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, StatusBar, View } from 'react-native';
 import { debounce } from 'lodash';
 import { useStore } from '../../models/stores/root-store';
 import ImageCell from '../../components/image-cell';
 import SearchBar from '../../components/search-bar';
 import ResetStore from './utils/reset-store';
-import Styles from './home-screen.style';
+import styles from './home-screen.style';
+import Screen from '../../components/screen';
 
 interface HomeScreenProps {}
 
@@ -53,12 +48,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   };
 
   return (
-    <SafeAreaView>
+    <Screen>
       <StatusBar barStyle="dark-content" />
       <View>
         <SearchBar placeHolder="Search image" onChangeText={onChangeText} />
         <FlatList
-          contentContainerStyle={Styles.list}
+          contentContainerStyle={styles.list}
           data={userStore.getSearchResult()}
           renderItem={ImageCell}
           keyExtractor={item => item.id}
@@ -74,7 +69,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           }
         />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 };
 

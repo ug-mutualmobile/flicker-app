@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from 'react-native';
 
-const STYLES = StyleSheet.create({
+const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
@@ -33,4 +33,4 @@ const STYLES = StyleSheet.create({
   list: { paddingBottom: Platform.OS === 'ios' ? 120 : 140 },
 });
 
-export default STYLES;
+export default styles;

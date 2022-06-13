@@ -1,7 +1,8 @@
 import React from 'react';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+import Screen from '../../components/screen';
 import { useStore } from '../../models/stores/root-store';
-import Styles from './image-detail.style';
+import styles from './image-detail.style';
 
 interface ImageDetailProps {
   route: { params: { id: string } };
@@ -13,17 +14,17 @@ const ImageDetail: React.FC<ImageDetailProps> = ({ route }) => {
   const data = imageDetailStore.getImageDetails(id);
 
   return (
-    <SafeAreaView>
-      <View style={Styles.container}>
+    <Screen>
+      <View style={styles.container}>
         <Image
           source={{
             uri: `https://live.staticflickr.com/${data?.server}/${data?.id}_${data?.secret}_z.jpg`,
           }}
-          style={Styles.image}
+          style={styles.image}
         />
-        <Text style={Styles.text}>{data?.title || '-'}</Text>
+        <Text style={styles.text}>{data?.title || '-'}</Text>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 };
 

@@ -21,7 +21,7 @@ const ImageCell: React.FC<ImageCellProps> = ({ item }) => {
         }}
         style={STYLES.image}
       />
-      <Text style={STYLES.text}>{item?.title}</Text>
+      <Text style={STYLES.text}>{item?.title || '-'}</Text>
     </Pressable>
   );
 };
