@@ -11,9 +11,7 @@ import { useStore } from '../../models/stores/root-store';
 import ImageCell from '../../components/image-cell';
 import SearchBar from '../../components/search-bar';
 import ResetStore from './utils/reset-store';
-import Styles from './home-screen.style';
-import SnackbarCell from '../../components/snack-bar';
-import checkNetwork from '../../services/utils/check-network';
+import styles from './home-screen.style';
 
 interface HomeScreenProps {}
 
@@ -41,20 +39,16 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     });
   }, 1000);
 
-  const onChangeText = async (
+  const onChangeText = (
     text: string,
     onChangeLocalSearchValue: (text: string) => void,
   ) => {
-    if (await checkNetwork()) {
-      userStore.setSearchResult([]);
-      userStore.setPageNumber(1);
-      onChangeLocalSearchValue(text);
+    userStore.setSearchResult([]);
+    userStore.setPageNumber(1);
+    onChangeLocalSearchValue(text);
 
-      if (text) {
-        onSearch(text);
-      }
-    } else {
-      SnackbarCell('Check your network');
+    if (text) {
+      onSearch(text);
     }
   };
 
@@ -64,7 +58,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       <View>
         <SearchBar placeHolder="Search image" onChangeText={onChangeText} />
         <FlatList
-          contentContainerStyle={Styles.list}
+          contentContainerStyle={styles.list}
           data={userStore.getSearchResult()}
           renderItem={ImageCell}
           keyExtractor={item => item.id}

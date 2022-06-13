@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const STYLES = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingTop: 20,
@@ -19,4 +19,4 @@ const STYLES = StyleSheet.create({
   },
 });
 
-export default STYLES;
+export default styles;
