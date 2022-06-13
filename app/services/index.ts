@@ -22,7 +22,7 @@ const instance = axios.create({
 instance.interceptors.response.use(
   response => response,
   ({ message, response }) => {
-    handleError({ response, message });
+    return handleError({ response, message });
   },
 );
 

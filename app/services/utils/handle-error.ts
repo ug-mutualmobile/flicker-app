@@ -7,5 +7,5 @@ interface HandleProps {
 
 export default function ({ response, message }: HandleProps) {
   SnackbarCell(message);
-  Promise.reject({ response, message });
+  return Promise.reject({ response, message });
 }
