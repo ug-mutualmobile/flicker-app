@@ -30,7 +30,9 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'black',
   },
-  list: { paddingBottom: Platform.OS === 'ios' ? 120 : 140 },
+  list: {
+    paddingBottom: Platform.OS === 'ios' ? 120 : 140,
+  },
 });
 
 export default styles;

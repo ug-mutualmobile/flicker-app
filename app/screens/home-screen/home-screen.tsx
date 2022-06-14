@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNetInfo } from '@react-native-community/netinfo';
 import {
   ActivityIndicator,
   FlatList,
@@ -18,6 +19,7 @@ interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const { userStore } = useStore();
+  const NetInfo = useNetInfo();
   const [isConnected, setIsConnected] = useState<boolean | null>(true);
 
   useEffect(() => {
@@ -25,6 +27,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       ResetStore();
     };
   }, []);
+
+  useEffect(() => {
+    setIsConnected(NetInfo.isConnected);
+  }, [NetInfo]);
 
   const onPageFinish = debounce(() => {
     userStore.setPageNumber(userStore.getPageNumber() + 1);
@@ -65,7 +71,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           renderItem={props => <ImageCell item={props.item} />}
           keyExtractor={item => item.id}
           ListEmptyComponent={
-            !isConnected ? <NoNetwork onChange={setIsConnected} /> : <></>
+            <NoNetwork isVisible={isConnected} onChange={setIsConnected} />
           }
           onEndReached={() => {
             onPageFinish();
