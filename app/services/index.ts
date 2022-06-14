@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL } from '../assets/contants';
+import { BASE_URL } from '../constants/constants';
 import handleError from './utils/handle-error';
 
 let cancelToken: any;

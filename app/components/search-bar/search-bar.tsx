@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
-import STYLES from '../screens/home-screen/home-screen.style';
-import { COLORS } from '../theme/colors';
+import STYLES from '../../screens/home-screen/home-screen.style';
+import { COLORS } from '../../theme/colors';
 
 interface SearchBarProps {
   placeHolder: string;

@@ -1,4 +1,4 @@
-import SnackbarCell from '../../components/snack-bar';
+import SnackbarCell from '../../components/snack-bar/snack-bar';
 
 interface HandleProps {
   response: object;

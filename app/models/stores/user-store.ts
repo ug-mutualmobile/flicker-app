@@ -1,5 +1,5 @@
 import { cast, flow, types } from 'mobx-state-tree';
-import SnackbarCell from '../../components/snack-bar';
+import SnackbarCell from '../../components/snack-bar/snack-bar';
 import * as ImageApi from '../../services/user';
 import { FetchImageInterface } from '../interfaces/fetch-image-interface';
 import { ImageDetailInterface } from '../interfaces/image-detail-interface';

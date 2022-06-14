@@ -1,17 +1,24 @@
-import React, { useEffect } from 'react';
-import { ActivityIndicator, FlatList, StatusBar, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  View,
+} from 'react-native';
 import { debounce } from 'lodash';
 import { useStore } from '../../models/stores/root-store';
-import ImageCell from '../../components/image-cell';
-import SearchBar from '../../components/search-bar';
+import ImageCell from '../../components/image-cell/image-cell';
+import SearchBar from '../../components/search-bar/search-bar';
 import ResetStore from './utils/reset-store';
 import styles from './home-screen.style';
-import Screen from '../../components/screen';
+import NoNetwork from '../../components/no-network/no-network';
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const { userStore } = useStore();
+  const [isConnected, setIsConnected] = useState<boolean | null>(true);
 
   useEffect(() => {
     return () => {
@@ -48,15 +55,18 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   };
 
   return (
-    <Screen>
+    <SafeAreaView>
       <StatusBar barStyle="dark-content" />
       <View>
         <SearchBar placeHolder="Search image" onChangeText={onChangeText} />
         <FlatList
           contentContainerStyle={styles.list}
           data={userStore.getSearchResult()}
-          renderItem={ImageCell}
+          renderItem={props => <ImageCell item={props.item} />}
           keyExtractor={item => item.id}
+          ListEmptyComponent={
+            !isConnected ? <NoNetwork onChange={setIsConnected} /> : <></>
+          }
           onEndReached={() => {
             onPageFinish();
           }}
@@ -69,7 +79,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           }
         />
       </View>
-    </Screen>
+    </SafeAreaView>
   );
 };
 

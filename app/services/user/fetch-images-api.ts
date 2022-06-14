@@ -1,5 +1,5 @@
 import api from '..';
-import { API_KEY } from '../../assets/contants';
+import { API_KEY } from '../../constants/constants';
 
 export const fetchImagesApi = async (searchValue: string, page: string) => {
   return await api.get('', {
