@@ -60,6 +60,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     }
   };
 
+  const onPageRefresh = () => {
+    if (userStore.getSearchValue()) {
+      onSearch(userStore.getSearchValue());
+    }
+  };
+
   return (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
@@ -70,6 +76,11 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           data={userStore.getSearchResult()}
           renderItem={props => <ImageCell item={props.item} />}
           keyExtractor={item => item.id}
+          refreshing={
+            userStore.getSearchResult().length !== 0 &&
+            userStore.getIsSearching()
+          }
+          onRefresh={onPageRefresh}
           ListEmptyComponent={
             <NoNetwork isVisible={isConnected} onChange={setIsConnected} />
           }

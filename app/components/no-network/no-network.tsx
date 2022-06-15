@@ -10,21 +10,18 @@ interface NoNetworkProps {
 }
 
 const NoNetwork: React.FC<NoNetworkProps> = ({ onChange, isVisible }) => {
-  console.log('🚀 ~ file: no-network.tsx ~ line 13 ~ isVisib', isVisible);
   const checkForNetwork = async () => {
     onChange((await checkNetwork()).isConnected);
   };
 
-  return (
+  return !isVisible ? (
     <View style={styles.container}>
-      {!isVisible && (
-        <>
-          <Text style={styles.title}>No Network!</Text>
-          <Text style={styles.desc}>Check your network connection.</Text>
-          <PrimaryButton onPress={checkForNetwork} text="Try Again" />
-        </>
-      )}
+      <Text style={styles.title}>No Network!</Text>
+      <Text style={styles.desc}>Check your network connection.</Text>
+      <PrimaryButton onPress={checkForNetwork} text="Try Again" />
     </View>
+  ) : (
+    <></>
   );
 };
 
