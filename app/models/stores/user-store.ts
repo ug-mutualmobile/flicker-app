@@ -22,6 +22,7 @@ export const UserStore = types
   .props({
     searchValue: types.string,
     isSearching: types.boolean,
+    isPageRefreshing: false,
     page: types.number,
     searchResult: types.array(SearchResultModel),
   })
@@ -39,6 +40,9 @@ export const UserStore = types
       getPageNumber() {
         return self.page;
       },
+      getIsPageRefreshing() {
+        return self.isPageRefreshing;
+      },
     };
   })
   .actions(self => {
@@ -55,8 +59,12 @@ export const UserStore = types
       setPageNumber(number: number) {
         self.page = number;
       },
+      setIsPageRefreshing(isPageRefreshing: boolean) {
+        self.isPageRefreshing = isPageRefreshing;
+      },
       fetchImageAction: flow(function* (data: FetchImageInterface) {
         self.searchValue = data.searchValue;
+        self.isPageRefreshing = data.isPageRefreshing;
         self.isSearching = true;
         try {
           const response = yield ImageApi.fetchImagesApi(
@@ -76,8 +84,10 @@ export const UserStore = types
             SnackbarCell('Bad response!');
           }
           self.isSearching = false;
+          self.isPageRefreshing = false;
         } catch (error) {
           self.isSearching = false;
+          self.isPageRefreshing = false;
         }
       }),
     };
@@ -88,4 +98,5 @@ export const UserStoreInitialState = {
   isSearching: false,
   searchResult: [],
   page: 1,
+  isPageRefreshing: false,
 };

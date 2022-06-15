@@ -37,13 +37,15 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     userStore.fetchImageAction({
       searchValue: userStore.getSearchValue(),
       page: userStore.getPageNumber().toString(),
+      isPageRefreshing: false,
     });
   }, 1000);
 
-  const onSearch = debounce((text: string) => {
+  const onSearch = debounce((text: string, isPageRefreshing: boolean) => {
     userStore.fetchImageAction({
       searchValue: text,
       page: '1',
+      isPageRefreshing,
     });
   }, 1000);
 
@@ -56,13 +58,13 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     onChangeLocalSearchValue(text);
 
     if (text) {
-      onSearch(text);
+      onSearch(text, false);
     }
   };
 
   const onPageRefresh = () => {
     if (userStore.getSearchValue()) {
-      onSearch(userStore.getSearchValue());
+      onSearch(userStore.getSearchValue(), true);
     }
   };
 
@@ -76,10 +78,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           data={userStore.getSearchResult()}
           renderItem={props => <ImageCell item={props.item} />}
           keyExtractor={item => item.id}
-          refreshing={
-            userStore.getSearchResult().length !== 0 &&
-            userStore.getIsSearching()
-          }
+          refreshing={userStore.getIsPageRefreshing()}
           onRefresh={onPageRefresh}
           ListEmptyComponent={
             <NoNetwork isVisible={isConnected} onChange={setIsConnected} />
