@@ -1,5 +1,5 @@
 import { cast, flow, types } from 'mobx-state-tree';
-import SnackbarCell from '../../components/snack-bar';
+import SnackbarCell from '../../components/snack-bar/snack-bar';
 import * as ImageApi from '../../services/user';
 import { FetchImageInterface } from '../interfaces/fetch-image-interface';
 import { ImageDetailInterface } from '../interfaces/image-detail-interface';
@@ -22,9 +22,9 @@ export const UserStore = types
   .props({
     searchValue: types.string,
     isSearching: types.boolean,
+    isPageRefreshing: false,
     page: types.number,
     searchResult: types.array(SearchResultModel),
-    isAppLoading: types.boolean,
   })
   .views(self => {
     return {
@@ -40,8 +40,8 @@ export const UserStore = types
       getPageNumber() {
         return self.page;
       },
-      getIsAppLoading() {
-        return self.isAppLoading;
+      getIsPageRefreshing() {
+        return self.isPageRefreshing;
       },
     };
   })
@@ -59,11 +59,12 @@ export const UserStore = types
       setPageNumber(number: number) {
         self.page = number;
       },
-      setIsAppLoading(isLoading: boolean) {
-        self.isAppLoading = isLoading;
+      setIsPageRefreshing(isPageRefreshing: boolean) {
+        self.isPageRefreshing = isPageRefreshing;
       },
       fetchImageAction: flow(function* (data: FetchImageInterface) {
         self.searchValue = data.searchValue;
+        self.isPageRefreshing = data.isPageRefreshing;
         self.isSearching = true;
         try {
           const response = yield ImageApi.fetchImagesApi(
@@ -83,8 +84,14 @@ export const UserStore = types
             SnackbarCell('Bad response!');
           }
           self.isSearching = false;
+          self.isPageRefreshing = false;
         } catch (error) {
+          console.log(
+            '🚀 ~ file: user-store.ts ~ line 89 ~ fetchImageAction:flow ~ error',
+            error,
+          );
           self.isSearching = false;
+          self.isPageRefreshing = false;
         }
       }),
     };
@@ -95,5 +102,5 @@ export const UserStoreInitialState = {
   isSearching: false,
   searchResult: [],
   page: 1,
-  isAppLoading: true,
+  isPageRefreshing: false,
 };

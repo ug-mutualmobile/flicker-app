@@ -1,13 +1,8 @@
 import axios from 'axios';
-import { BASE_URL } from '../assets/contants';
+import SnackbarCell from '../components/snack-bar/snack-bar';
+import { BASE_URL } from '../constants/constants';
+import checkNetwork from './utils/check-network';
 import handleError from './utils/handle-error';
-
-let cancelToken: any;
-
-if (typeof cancelToken !== typeof undefined) {
-  cancelToken.cancel('Canceling the previous req');
-}
-cancelToken = axios.CancelToken.source();
 
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -15,8 +10,14 @@ const instance = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
-  cancelToken: cancelToken.token,
   timeout: 4000,
+});
+
+instance.interceptors.request.use(async function (config) {
+  if (!(await checkNetwork()).isConnected) {
+    SnackbarCell('Check your internet!');
+  }
+  return config;
 });
 
 instance.interceptors.response.use(
