@@ -1,5 +1,7 @@
 import axios from 'axios';
+import SnackbarCell from '../components/snack-bar/snack-bar';
 import { BASE_URL } from '../constants/constants';
+import checkNetwork from './utils/check-network';
 import handleError from './utils/handle-error';
 
 const instance = axios.create({
@@ -9,6 +11,13 @@ const instance = axios.create({
     'Content-Type': 'application/json',
   },
   timeout: 4000,
+});
+
+instance.interceptors.request.use(async function (config) {
+  if (!(await checkNetwork()).isConnected) {
+    SnackbarCell('Check your internet!');
+  }
+  return config;
 });
 
 instance.interceptors.response.use(
