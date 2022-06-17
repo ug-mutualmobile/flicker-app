@@ -86,10 +86,13 @@ export const UserStore = types
           self.isSearching = false;
           self.isPageRefreshing = false;
         } catch (error) {
-          console.log(
-            '🚀 ~ file: user-store.ts ~ line 89 ~ fetchImageAction:flow ~ error',
-            error,
-          );
+          if (error instanceof Error) {
+            console.log(
+              '🚀 ~ file: user-store.ts ~ line 89 ~ fetchImageAction:flow ~ error',
+              error.message,
+            );
+          }
+
           self.isSearching = false;
           self.isPageRefreshing = false;
         }
