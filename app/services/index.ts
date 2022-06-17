@@ -1,11 +1,11 @@
 import axios from 'axios';
 import SnackbarCell from '../components/snack-bar/snack-bar';
-import { BASE_URL } from '../constants/constants';
+import { ApiUrls } from '../config/api-urls';
 import checkNetwork from './utils/check-network';
 import handleError from './utils/handle-error';
 
 const instance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: ApiUrls.dev.BASE_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
