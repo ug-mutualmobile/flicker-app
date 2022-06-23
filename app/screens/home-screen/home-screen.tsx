@@ -14,6 +14,7 @@ import SearchBar from '../../components/search-bar/search-bar';
 import ResetStore from './utils/reset-store';
 import styles from './home-screen.style';
 import NoNetwork from '../../components/no-network/no-network';
+import Config from 'react-native-config';
 
 interface HomeScreenProps {}
 
@@ -23,6 +24,11 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [isConnected, setIsConnected] = useState<boolean | null>(true);
 
   useEffect(() => {
+    console.log(
+      '🚀 ~ file: home-screen.tsx ~ line 28 ~ useEffect ~ Config.APP_ENV',
+      Config.APP_ENV,
+    );
+
     return () => {
       ResetStore();
     };
