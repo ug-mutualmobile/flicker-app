@@ -4,13 +4,13 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '11.0'
 install! 'cocoapods', :deterministic_uuids => false
 
-project 'myApp',{
-  'DebugDev' => :debug,
+project 'MyFlickerApp',{
+  'DebugDevelopment' => :debug,
   'DebugStaging' => :debug,
-  'DebugProd' => :debug,
-  'ReleaseDev' => :release,
+  'DebugProduction' => :debug,
+  'ReleaseDevelopment' => :release,
   'ReleaseStaging' => :release,
-  'ReleaseProd' => :release,
+  'ReleaseProduction' => :release,
 }
 
 target 'MyFlickerApp' do
@@ -18,7 +18,7 @@ target 'MyFlickerApp' do
 
   # Flags change depending on the env values.
   flags = get_default_flags()
-  debugs =['DebugDev','DebugStaging','DebugProd']
+  debugs = ['DebugDevelopment','DebugStaging','DebugProduction']
 
   use_react_native!(
     :path => config[:reactNativePath],

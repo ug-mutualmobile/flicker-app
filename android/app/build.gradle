@@ -1,5 +1,16 @@
 apply plugin: "com.android.application"
 
+project.ext.envConfigFiles = [
+    productiondebug: ".env.production",
+    productionrelease: ".env.production",
+    developmentrelease: ".env.development",
+    developmentdebug: ".env.development",
+    stagingrelease: ".env.staging",
+    stagingdebug: ".env.staging"
+]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
 
@@ -141,6 +152,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        resValue "string", "build_config_package", "com.myflickerapp"
 
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
@@ -233,6 +245,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            matchingFallbacks = ['debug', 'release']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -243,18 +256,19 @@ android {
         }
     }
 
-    flavorDimensions "env"
+    flavorDimensions "default"
     productFlavors {
         staging {
-            resValue "string", "app_name", "MyFlickrApp Stag"
-            applicationIdSuffix ".stag"
+            resValue "string", "app_name", "MyFlickerApp Stag"
+            applicationIdSuffix ".staging"
         }
-        dev {
-            resValue "string", "app_name", "MyFlickrApp Dev"
-            applicationIdSuffix ".dev"
+        development {
+            resValue "string", "app_name", "MyFlickerApp Dev"
+            applicationIdSuffix ".development"
         }
-        prod {
-            resValue "string", "app_name", "MyFlickrApp"
+        production {
+            resValue "string", "app_name", "MyFlickerApp"
+            applicationIdSuffix ".production"
         }
     } 
 
