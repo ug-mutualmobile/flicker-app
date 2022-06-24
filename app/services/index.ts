@@ -14,7 +14,10 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(async function (config) {
-  if (!(await checkNetwork()).isConnected) {
+  if (
+    !(await checkNetwork()).isConnected &&
+    (await checkNetwork()).isInternetReachable
+  ) {
     SnackbarCell('Check your internet!');
   }
   return config;
