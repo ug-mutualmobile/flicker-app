@@ -38,10 +38,24 @@
                ReferencedContainer = "container:MyFlickerApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
+               BuildableName = "MyFlickerAppTests.xctest"
+               BlueprintName = "MyFlickerAppTests"
+               ReferencedContainer = "container:MyFlickerApp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "DebugProduction"
+      buildConfiguration = "DebugDevelopment"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
@@ -70,7 +84,7 @@
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "ReleaseProduction"
+      buildConfiguration = "ReleaseDevelopment"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -87,10 +101,10 @@
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "DebugProduction">
+      buildConfiguration = "DebugDevelopment">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "ReleaseProduction"
+      buildConfiguration = "ReleaseDevelopment"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
